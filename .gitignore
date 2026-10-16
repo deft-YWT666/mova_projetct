@@ -1,0 +1,35 @@
+.vscode/
+
+# Back
+backend/config/config.ini
+.coverage
+__pycache__/
+.pytest_cache
+backend/coverage.xml
+backend/dist/
+
+# Front
+frontend/node_modules/
+
+.env
+.worker.env
+data/
+inspection/
+*.tgz
+test-results/
+frontend/dist/
+
+# Local credentials, generated media, model weights and backup files
+.env.*
+!.env.example
+.worker.env*
+*.before-*
+*.bak
+*.log
+*.sqlite*
+*.pem
+*.key
+*.pt
+*.pth
+*.safetensors
+*.ckpt

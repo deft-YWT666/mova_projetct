@@ -1,0 +1,28 @@
+name: mova-studio
+services:
+  web:
+    build:
+      context: .
+      args:
+        PIP_INDEX_URL: ${PIP_INDEX_URL:-https://pypi.org/simple}
+    image: mova-video-studio:1.0
+    container_name: mova-video-studio
+    restart: unless-stopped
+    user: "${STUDIO_UID:-1013}:${STUDIO_GID:-1013}"
+    env_file: .env
+    ports:
+      - "${STUDIO_PORT:-18088}:3000"
+    volumes:
+      - ./data:/data
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m
+    cap_drop: [ALL]
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://localhost:3000/api/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s

@@ -1,0 +1,24 @@
+[Unit]
+Description=MOVA Video Studio GPU worker
+After=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/lj/video-studio
+Environment=DATA_DIR=/home/lj/video-studio/data
+Environment=MOVA_ROOT=/ceph100t/lj/mova-sglang
+Environment=CUDA_VISIBLE_DEVICES=1,2,3,4,5,6,7
+Environment=SGLANG_PYTHON=/home/lj/.local/share/mova-studio/sglang-env/bin/python
+Environment=MOVA_CACHE_ROOT=/dev/shm/lj-mova-studio
+Environment=MOVA_PERFORMANCE_MODE=speed
+Environment=HF_HUB_OFFLINE=1
+Environment=TRANSFORMERS_OFFLINE=1
+EnvironmentFile=-/home/lj/video-studio/.worker.env
+ExecStart=/usr/bin/python3 /home/lj/video-studio/worker.py
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=45
+KillMode=mixed
+
+[Install]
+WantedBy=default.target
